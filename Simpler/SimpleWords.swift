@@ -67,11 +67,22 @@ class SimpleWords: NSObject {
         do {
             let text = try NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding)
             self.allWords = text.componentsSeparatedByString("\n")
+            readInProperNames()
         } catch {
             print("read didn't work")
             return
         }
     }
     
-    
+    func readInProperNames(){
+        do {
+            let properNamesFileLocation = NSURL(fileURLWithPath: "/usr/share/dict/propernames")
+            let names = try NSString(contentsOfURL: properNamesFileLocation, encoding: NSUTF8StringEncoding)
+            let list = names.componentsSeparatedByString("\n")
+            self.allWords += list
+        } catch {
+            print("Couldn't read names")
+            return
+        }
+    }
 }
